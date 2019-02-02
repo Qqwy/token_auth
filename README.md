@@ -1,4 +1,4 @@
-# Token auth
+# TokenAuth
 
 A Plug that provides Bearer authentication by checking the requests' token
 matches the configured one.
@@ -22,7 +22,7 @@ If you use Confex, you can add the options to your configuration:
 ```elixir
 config :yourapp,
   token_auth: [
-    username: {:system, "APP_TOKEN", nil},
+    token: {:system, "APP_TOKEN", "token"},
     realm: "Authentication"
   ]
 ```
