@@ -14,21 +14,22 @@ matches the configured one.
 Plug it in your router or pipeline:
 
 ```elixir
-plug TokenAuth, [token: "your_token", realm: "Authentication"]
+plug(TokenAuth)
 ```
 
-If you use Confex, you can add the options to your configuration:
+Then in you config:
 
 ```elixir
-config :yourapp,
-  token_auth: [
-    token: {:system, "APP_TOKEN", "token"},
-    realm: "Authentication"
-  ]
+config :token_auth,
+  token: {:system, "AUTH_TOKEN", "token"},
+  realm: {:system, "AUTH_REALM", "Authentication"}
 ```
 
-Then in your router, you would write:
+It works with any env name:
+
 
 ```elixir
-plug TokenAuth, Confex.get_env(:yourapp, :token_auth)
+config :token_auth,
+  token: {:system, "APP_TOKEN", "token"},
+  realm: {:system, "APP_REALM", "Authentication"}
 ```
