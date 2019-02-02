@@ -27,7 +27,7 @@ config :yourapp,
   ]
 ```
 
-And your router, you would write:
+Then in your router, you would write:
 
 ```elixir
 plug TokenAuth, Confex.get_env(:yourapp, :token_auth)
