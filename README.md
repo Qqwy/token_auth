@@ -14,7 +14,7 @@ matches the configured one.
 Plug it in your router or pipeline:
 
 ```elixir
-plug TokenAuth, [token: "youtoken", realm: "Authentication"]
+plug TokenAuth, [token: "your_token", realm: "Authentication"]
 ```
 
 If you use Confex, you can add the options to your configuration:
