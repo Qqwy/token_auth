@@ -27,8 +27,8 @@ defmodule TokenAuth do
   @doc """
   Creates the comparison token
   """
-  defp get_token(options) do
-    "Bearer " <> options[:token]
+  defp get_token() do
+    "Bearer " <> Confex.get_env(:token_auth, :token)
   end
 
   @doc """
@@ -43,11 +43,13 @@ defmodule TokenAuth do
   @doc """
   Produces a 401 response
   """
-  defp unauthorised(conn, options) do
+  defp unauthorised(conn) do
+    realm = Confex.get_env(:token_auth, :realm)
+
     conn
     |> Conn.put_resp_header(
       "www-authenticate",
-      "Basic realm=\"#{options[:realm]}\", error=\"invalid_token\""
+      "Basic realm=\"#{realm}\", error=\"invalid_token\""
     )
     |> Conn.put_resp_content_type("text/plain")
     |> Conn.send_resp(401, "401 Unauthorized")
@@ -57,22 +59,21 @@ defmodule TokenAuth do
   @doc """
   Verifies the auth header is correct
   """
-  def verify_auth(conn, options) do
-    token = get_token(options)
+  def verify_auth(conn) do
     authorization = authorization_header(conn)
 
     if authorization do
-      if tokens_match(authorization, token) do
+      if tokens_match(authorization, get_token()) do
         true
       end
     end
   end
 
-  def call(conn, options) do
-    if verify_auth(conn, options) do
+  def call(conn, _options) do
+    if verify_auth(conn) do
       conn
     else
-      unauthorised(conn, options)
+      unauthorised(conn)
     end
   end
 end
