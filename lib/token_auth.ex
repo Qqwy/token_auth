@@ -3,6 +3,7 @@ defmodule TokenAuth do
   alias Plug.Conn
 
   @realm Application.get_env(:token_auth, :realm)
+  @token Application.get_env(:token_auth, :token)
 
   def init(options) do
     options
@@ -24,13 +25,6 @@ defmodule TokenAuth do
     conn
     |> Conn.get_req_header("authorization")
     |> extract_header()
-  end
-
-  @doc """
-  Creates the comparison token
-  """
-  defp get_token() do
-    "Bearer " <> Confex.get_env(:token_auth, :token)
   end
 
   @doc """
@@ -63,7 +57,7 @@ defmodule TokenAuth do
     authorization = authorization_header(conn)
 
     if authorization do
-      if tokens_match(authorization, get_token()) do
+      if tokens_match(authorization, "Bearer #{@token}") do
         true
       end
     end
