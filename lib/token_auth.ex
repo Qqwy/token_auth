@@ -2,6 +2,8 @@ defmodule TokenAuth do
   alias Plug.Crypto
   alias Plug.Conn
 
+  @realm Application.get_env(:token_auth, :realm)
+
   def init(options) do
     options
   end
@@ -44,12 +46,10 @@ defmodule TokenAuth do
   Produces a 401 response
   """
   def unauthorised(conn) do
-    realm = Confex.get_env(:token_auth, :realm)
-
     conn
     |> Conn.put_resp_header(
       "www-authenticate",
-      "Basic realm=\"#{realm}\", error=\"invalid_token\""
+      "Bearer realm=\"#{@realm}\", error=\"invalid_token\""
     )
     |> Conn.put_resp_content_type("text/plain")
     |> Conn.send_resp(401, "401 Unauthorized")
