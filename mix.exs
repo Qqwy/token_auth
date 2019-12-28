@@ -21,7 +21,6 @@ defmodule TokenAuth.MixProject do
 
   defp deps do
     [
-      {:confex, "~> 3.4"},
       {:credo, "~> 0.9", only: [:dev, :test], runtime: false},
       {:dummy, "~> 1.2", only: :test},
       {:ex_doc, ">= 0.0.0", only: :dev},
