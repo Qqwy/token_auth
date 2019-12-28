@@ -31,4 +31,9 @@ It works with any env name:
 config :token_auth,
   token: {:system, "APP_TOKEN", "token"},
   realm: {:system, "APP_REALM", "Authentication"}
+
+Try it out:
+
+```sh
+curl -X http://localhost:4000/protected -H "Authorization: Bearer TOKEN"
 ```
