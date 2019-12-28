@@ -43,7 +43,7 @@ defmodule TokenAuth do
   @doc """
   Produces a 401 response
   """
-  defp unauthorised(conn) do
+  def unauthorised(conn) do
     realm = Confex.get_env(:token_auth, :realm)
 
     conn
@@ -70,10 +70,10 @@ defmodule TokenAuth do
   end
 
   def call(conn, _options) do
-    if verify_auth(conn) do
+    if TokenAuth.verify_auth(conn) do
       conn
     else
-      unauthorised(conn)
+      TokenAuth.unauthorised(conn)
     end
   end
 end
