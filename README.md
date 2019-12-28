@@ -1,7 +1,6 @@
 # TokenAuth
 
-A Plug that provides Bearer authentication by checking the requests' token
-matches the configured one.
+A Plug that provides Bearer authentication by checking whether the request's authorization matches a value.
 
 ## Installation
 
