@@ -16,21 +16,21 @@ Plug it in your router or pipeline:
 plug(TokenAuth)
 ```
 
-Then in you config:
+Then in you config set the token:
 
 ```elixir
 config :token_auth,
-  token: {:system, "AUTH_TOKEN", "token"},
-  realm: {:system, "AUTH_REALM", "Authentication"}
+  token: "TOKEN",
+  realm: "Your app"
 ```
 
-It works with any env name:
-
+If you want to use an environment variable, you can use System.get_env:
 
 ```elixir
 config :token_auth,
-  token: {:system, "APP_TOKEN", "token"},
-  realm: {:system, "APP_REALM", "Authentication"}
+  token: System.get_env("YOURAPP_TOKEN"),
+  realm: System.get_env("YOURAPP_NAME")
+```
 
 Try it out:
 
