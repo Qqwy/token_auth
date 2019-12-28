@@ -1,5 +1,5 @@
 use Mix.Config
 
 config :token_auth,
-  token: {:system, "AUTH_TOKEN", "token"},
+  token: "token",
   realm: nil
