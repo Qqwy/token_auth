@@ -6,7 +6,7 @@ matches the configured one.
 ## Installation
 
 ```elixir
-{:token_auth, "~> 1.0.0"}
+{:token_auth, "~> 1.1"}
 ```
 
 ## Usage
