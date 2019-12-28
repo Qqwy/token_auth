@@ -5,7 +5,7 @@ A Plug that provides Bearer authentication by checking whether the request's aut
 ## Installation
 
 ```elixir
-{:token_auth, "~> 1.1"}
+{:token_auth, "~> 1.2"}
 ```
 
 ## Usage
