@@ -1,4 +1,5 @@
 defmodule TokenAuth do
+  @behaviour Plug
   alias Plug.Crypto
   alias Plug.Conn
 
@@ -39,7 +40,7 @@ defmodule TokenAuth do
   @doc """
   Produces a 401 response
   """
-  def unauthorised(conn) do
+  def send_401(conn) do
     conn
     |> Conn.put_resp_header(
       "www-authenticate",
@@ -64,10 +65,9 @@ defmodule TokenAuth do
   end
 
   def call(conn, _options) do
-    if TokenAuth.verify_auth(conn) do
-      conn
-    else
-      TokenAuth.unauthorised(conn)
+    case TokenAuth.verify_auth(conn) do
+      true -> conn
+      _ -> TokenAuth.send_401(conn)
     end
   end
 end

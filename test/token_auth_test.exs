@@ -10,7 +10,7 @@ defmodule TokenAuthTest do
     assert TokenAuth.init(:options) == :options
   end
 
-  test "unauthorised/1" do
+  test "send_401/1" do
     auth_header = "Bearer realm=\"\", error=\"invalid_token\""
 
     dummy Conn, [
@@ -19,7 +19,7 @@ defmodule TokenAuthTest do
       {"send_resp", fn _a, _b, _c -> :resp end},
       {"halt", :halt}
     ] do
-      assert TokenAuth.unauthorised(:conn) == :halt
+      assert TokenAuth.send_401(:conn) == :halt
       assert called(Conn.put_resp_header(:conn, "www-authenticate", auth_header))
       assert called(Conn.put_resp_content_type(:header, "text/plain"))
       assert called(Conn.send_resp(:content_type, 401, "401 Unauthorized"))
@@ -34,8 +34,8 @@ defmodule TokenAuthTest do
   end
 
   test "call/2 with failing authentication" do
-    dummy TokenAuth, [{"verify_auth", false}, {"unauthorised", :unauthorised}] do
-      assert TokenAuth.call(:conn, :options) == :unauthorised
+    dummy TokenAuth, [{"verify_auth", false}, {"send_401", 401}] do
+      assert TokenAuth.call(:conn, :options) == 401
     end
   end
 end
