@@ -42,6 +42,21 @@ defmodule TokenAuthTest do
     end
   end
 
+  test "unauthorised/1" do
+    dummy TokenAuth, [{"is_excluded?/1", false}, {"send_401", 401}] do
+      result = TokenAuth.unauthorised(:conn)
+      assert called(TokenAuth.is_excluded?(:conn))
+      assert called(TokenAuth.send_401(:conn))
+      assert result == 401
+    end
+  end
+
+  test "unauthorised/1 with an excluded path" do
+    dummy TokenAuth, [{"is_excluded?/1", true}] do
+      assert TokenAuth.unauthorised(:conn) == :conn
+    end
+  end
+
   test "call/2 with successful authentication" do
     dummy TokenAuth, [{"verify_auth", true}] do
       assert TokenAuth.call(:conn, :options) == :conn
