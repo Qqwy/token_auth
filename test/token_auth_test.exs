@@ -65,8 +65,10 @@ defmodule TokenAuthTest do
   end
 
   test "call/2 with failing authentication" do
-    dummy TokenAuth, [{"verify_auth", false}, {"send_401", 401}] do
-      assert TokenAuth.call(:conn, :options) == 401
+    dummy TokenAuth, [{"verify_auth", false}, {"unauthorised/1", :unauthorised}] do
+      result = TokenAuth.call(:conn, :options)
+      assert called(TokenAuth.unauthorised(:conn))
+      assert result == :unauthorised
     end
   end
 end

@@ -84,7 +84,7 @@ defmodule TokenAuth do
   def call(conn, _options) do
     case TokenAuth.verify_auth(conn) do
       true -> conn
-      _ -> TokenAuth.send_401(conn)
+      _ -> TokenAuth.unauthorised(conn)
     end
   end
 end
