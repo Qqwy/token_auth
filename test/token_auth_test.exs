@@ -26,6 +26,22 @@ defmodule TokenAuthTest do
     end
   end
 
+  test "is_excluded?/1" do
+    dummy Application, [{"get_env/3", []}] do
+      conn = %{private: %{plug_route: {"/"}}}
+      result = TokenAuth.is_excluded?(conn)
+      assert called(Application.get_env(:token_auth, :excluded, []))
+      assert result == false
+    end
+  end
+
+  test "is_excluded?/1 with an excluded path" do
+    dummy Application, [{"get_env/3", ["/path"]}] do
+      conn = %{private: %{plug_route: {"/path"}}}
+      assert TokenAuth.is_excluded?(conn) == true
+    end
+  end
+
   test "call/2 with successful authentication" do
     dummy TokenAuth, [{"verify_auth", true}] do
       assert TokenAuth.call(:conn, :options) == :conn
