@@ -64,6 +64,15 @@ defmodule TokenAuth do
     end
   end
 
+  @doc """
+  Whether the path is excluded.
+  """
+  def is_excluded?(conn) do
+    :token_auth
+    |> Application.get_env(:excluded, [])
+    |> Enum.member?(elem(conn.private[:plug_route], 0))
+  end
+
   def call(conn, _options) do
     case TokenAuth.verify_auth(conn) do
       true -> conn
