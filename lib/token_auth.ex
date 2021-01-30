@@ -73,6 +73,14 @@ defmodule TokenAuth do
     |> Enum.member?(elem(conn.private[:plug_route], 0))
   end
 
+  def unauthorised(conn) do
+    if TokenAuth.is_excluded?(conn) do
+      conn
+    else
+      TokenAuth.send_401(conn)
+    end
+  end
+
   def call(conn, _options) do
     case TokenAuth.verify_auth(conn) do
       true -> conn
