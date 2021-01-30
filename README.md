@@ -21,7 +21,8 @@ Then in you config set the token:
 ```elixir
 config :token_auth,
   token: "TOKEN",
-  realm: "Your app"
+  realm: "Your app",
+  excluded: ["/public"]
 ```
 
 If you want to use an environment variable, you can use System.get_env:
