@@ -13,7 +13,9 @@ A Plug that provides Bearer authentication by checking whether the request's aut
 Plug it in your router or pipeline:
 
 ```elixir
+plug(:match)
 plug(TokenAuth)
+plug(:dispatch)
 ```
 
 Then in you config set the token:
