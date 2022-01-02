@@ -70,7 +70,7 @@ defmodule TokenAuth do
   def is_excluded?(conn) do
     :token_auth
     |> Application.get_env(:excluded, [])
-    |> Enum.member?(elem(conn.private[:plug_route], 0))
+    |> Enum.member?(conn.request_path)
   end
 
   def unauthorised(conn) do
